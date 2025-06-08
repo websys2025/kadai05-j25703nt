@@ -21,11 +21,9 @@
             const data = await response.json();
 
             if (data.age !== null) {
-                document.getElementById("result").innerHTML += 
-                    `名前：${data.name} → 予測年齢：${data.age}歳<br />`;
+                document.getElementById("result").innerHTML += `名前：${data.name} → 予測年齢：${data.age}歳<br />`;
             } else {
-                document.getElementById("result").innerHTML += 
-                    `名前：${data.name} → 正しく名前入力してね。<br />`;
+                document.getElementById("result").innerHTML += `名前：${data.name} → 正しく名前入力してね。<br />`;
             }
 
             document.apiform.reset(); 
