@@ -4,19 +4,31 @@
     <title>演習課題5-2：外部APIの呼び出しテスト</title>
 </head>
 <body>
-    <h1 id="msg">何かのAPI</h1>
+    <h1 id="msg">年齢予想してみた！！</h1>
     <form name="apiform"><p>
-        何かのフォーム：<input type="text" name="form_data">
+        名前入力してね（英語）：<input type="text" name="form_data">
         <button type="button" id="btn1" onclick="some_api(this.form)">実行</button>
     </p></form>
-    
+
     <div id="result"></div>
+
     <script>
         async function some_api(myForm) {
-            // ここにコードを書く
-            document.getElementById("result").innerHTML += myForm.form_data.value+"<br />";
-            document.apiform.reset();
+            const name = myForm.form_data.value;
+            const url = `https://api.agify.io/?name=${encodeURIComponent(name)}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.age !== null) {
+                document.getElementById("result").innerHTML += `名前：${data.name} → 予測年齢：${data.age}歳<br />`;
+            } else {
+                document.getElementById("result").innerHTML += `名前：${data.name} → 正しく名前入力してね。<br />`;
+            }
+
+            document.apiform.reset(); 
         }
     </script>
 </body>
 </html>
+
