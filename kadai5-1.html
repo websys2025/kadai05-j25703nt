@@ -9,14 +9,24 @@
         郵便番号：<input type="text" name="zipcode">
         <button type="button" id="btn1" onclick="zip_api(this.form)">実行</button>
     </p></form>
-    
+
     <div id="result">結果はここに表示</div>
-    <script>
+      <script>
         async function zip_api(myForm) {
             const endpoint = "https://zipcloud.ibsnet.co.jp/api/search";
-            // ここにコードを書く
-            // zipcloudのAPI呼び出して結果を表示する
-            document.getElementById("result").innerHTML =  myForm.zipcode.value; // 現状ではそのまま表示しているだけ
+            const zipcode = myForm.zipcode.value;
+            const url = `${endpoint}?zipcode=${zipcode}`;
+
+            const kotae = await fetch(url);
+            const data = await kotae.json();
+
+           if (data.status === 200 && data.results) {
+                const result = data.results[0];
+                const address = `${result.address1}${result.address2}${result.address3}`;
+                document.getElementById("result").innerHTML = `${address}`;
+            } else {
+                document.getElementById("result").innerHTML = `${data.message}`;
+            }
         }
     </script>
 </body>
